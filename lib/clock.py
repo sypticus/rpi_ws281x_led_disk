@@ -32,11 +32,10 @@ def clock(disk):
         #adj = gyro.get_angle(self.gyro) + 45
         #adj = 5 * round(adj/5)
         adj = 0
-        print("Calculating Angles")
         sec_angle = current_time.tm_sec * 6
         min_angle = current_time.tm_min * 6
         hour_angle = (current_time.tm_hour % 12) * 30
-        print("Building Chains")
+
         sec_pix = disk.get_chain("8", sec_angle, 5, adj)
         min_pix = disk.get_chain("5", min_angle, 3, adj)
         hour_pix = disk.get_chain("3", hour_angle, 1, adj)
