@@ -14,10 +14,13 @@ class DiskMapping:
 
         with open(config_file_path) as config_file:
             device_conf = json.load(config_file)
-
-
+  
         self.device = device
+
         self.pixel_count = device_conf['pixel_count']
+        self.freq_hz = device_conf['freq_hz']
+        self.dma = device_conf['dma']
+
         self.ring_count = device_conf['ring_count']
         self.ring_map = self.map_rings(device_conf['ring_sizes'])
         self.direction = device_conf['pixel_direction']

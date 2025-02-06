@@ -3,11 +3,10 @@ from rpi_ws281x_disk.rpi_ws281x_disk import PixelDisk
 
 
 # LED strip configuration:
-LED_1_PIN = 18          # GPIO pin connected to the pixels (must support PWM! GPIO 13 and 18 on RPi 3).
-LED_1_DMA = 10          # DMA channel to use for generating signal (Between 1 and 14)
-LED_1_BRIGHTNESS = 128  # Set to 0 for darkest and 255 for brightest
-LED_1_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
-LED_1_CHANNEL = 0       # 0 or 1. pin 18 is on channel 0.
+LED_PIN = 18          # GPIO pin connected to the pixels (must support PWM! GPIO 13 and 18 on RPi 3).
+LED_BRIGHTNESS = 128  # Set to 0 for darkest and 255 for brightest
+LED_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
+LED_CHANNEL = 0       # 0 or 1. pin 18 is on channel 0.
 
 
 
@@ -54,6 +53,6 @@ def clock(disk):
         disk.show()
         time.sleep(.2)
 
-disk = PixelDisk(LED_1_PIN, LED_1_FREQ_HZ, LED_1_DMA, LED_1_BRIGHTNESS, LED_1_INVERT, LED_1_CHANNEL)
+disk = PixelDisk(LED_PIN, LED_BRIGHTNESS, LED_INVERT, LED_CHANNEL)
 
 clock(disk)
