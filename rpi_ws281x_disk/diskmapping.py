@@ -40,11 +40,10 @@ class DiskMapping:
         if self.pixel_count != ring_start:
             print(f"pixel_count in config did not match total mapped pixels, pixel_count: {self.pixel_count}, mapped: {ring_start}")
             raise ValueError("pixel_count in config did not match total mapped pixels")
-        print(ring_map)
         return ring_map
 
     def show(self):
-        self.strip.show()
+        self.show()
 
 
     def map_pos(self, pix):
@@ -66,18 +65,14 @@ class DiskMapping:
 
     def traverse_ring(self, ring, start, n):
         pixels = self.get_ring(ring)
-
         ring_size = len(pixels)
         n = n % ring_size
-
         pos = pixels.index(start)
         new_pos = pos + n
-
         if new_pos < 0:
             new_pos = ring_size + new_pos
         elif new_pos >= ring_size:
             new_pos = new_pos - ring_size
-
         return pixels[new_pos]
 
 
