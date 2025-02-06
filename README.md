@@ -4,3 +4,13 @@ This toolset works on top of the official [WS281x Python library](https://github
 
 
 <img src="disk.jpg" width="200">
+
+# Installing
+Either clone this repo, or install with 
+```console
+sudo pip install rpi_ws281x_disk
+```
+
+See the examples for usage!
+
+(Docs are under construction)
