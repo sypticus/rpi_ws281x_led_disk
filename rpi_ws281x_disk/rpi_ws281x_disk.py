@@ -1,16 +1,15 @@
 import time
+import os
+import json
 from rpi_ws281x import PixelStrip, Color
-
-from . import diskmapping
-
 
 class PixelDisk(PixelStrip):
 
-    def __init__(self, pin):
+    def __init__(self, pin, brightness, invert, channel):
         print("Loading mapping config")
-        disk_map = diskmapping.DiskMapping('241led9ringRGB')
+        disk_map = DiskMapping('241led9ringRGB')
         print("Initializing Strip")
-        super().__init__(disk_map.pixel_count,  pin, 800000, 10, False, 255, 0)
+        super().__init__(disk_map.pixel_count, pin, disk_map.freq_hz, disk_map.dma, invert, brightness, channel)
         self.disk_map = disk_map
         self.begin()
 
@@ -77,3 +76,72 @@ class PixelDisk(PixelStrip):
 
         pix = l + [center] + r
         return pix
+
+
+
+class DiskMapping:
+    def __init__(self, device='241led9ringRGB'):
+
+        script_dir = os.path.dirname(__file__)
+        config_file_path = os.path.join(script_dir, 'devicemaps/{}.json'.format(device))
+
+
+        with open(config_file_path) as config_file:
+            device_conf = json.load(config_file)
+
+        self.device = device
+
+        self.pixel_count = device_conf['pixel_count']
+        self.freq_hz = device_conf['freq_hz']
+        self.dma = device_conf['dma']
+
+        self.ring_count = device_conf['ring_count']
+        self.ring_map = self.map_rings(device_conf['ring_sizes'])
+        self.direction = device_conf['pixel_direction']
+
+    def get_ring(self, ring_id):
+        return self.ring_map[ring_id]
+
+    def get_ring_list(self):
+        return self.ring_map.keys()
+
+    def map_rings(self, ring_sizes):
+        ring_map = {}
+        ring_start = 0
+
+        for ring_id in ring_sizes.keys():
+            ring_end = ring_start + ring_sizes[ring_id]
+            ring_map[ring_id] = list(range(ring_start, ring_end))
+            ring_start = ring_end
+
+        if self.pixel_count != ring_start:
+            print(f"pixel_count in config did not match total mapped pixels, pixel_count: {self.pixel_count}, mapped: {ring_start}")
+            raise ValueError("pixel_count in config did not match total mapped pixels")
+        return ring_map
+
+
+    def map_pos(self, pix):
+        if str(self.direction) == "1":
+            return (self.pixel_count - 1) - pix
+        else:
+            return pix
+
+    def get_pixel_at_angle(self, ring, angle):
+        angle = 360 - angle
+        ratio = angle/360
+        pixels = self.get_ring(ring)
+        pix_index = int((len(pixels) - 1) * ratio)  #Which pixel on the ring has this angle?
+        return pixels[pix_index]
+
+    def traverse_ring(self, ring, start, n):
+        pixels = self.get_ring(ring)
+        ring_size = len(pixels)
+        n = n % ring_size
+        pos = pixels.index(start)
+        new_pos = pos + n
+        if new_pos < 0:
+            new_pos = ring_size + new_pos
+        elif new_pos >= ring_size:
+            new_pos = new_pos - ring_size
+        return pixels[new_pos]
+
