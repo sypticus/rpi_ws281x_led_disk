@@ -1,4 +1,4 @@
-# Python library and tools for a WS2812B 241 led disk.
+# Python library and tools for a WS2812x led disk.
 
 <img src="disk.jpg" width="250">
 
