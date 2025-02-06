@@ -3,6 +3,7 @@
   "ring_count": 9,
   "degrees": 360,
   "pixel_direction": 1,
+  "freq_hz": 800000,
   "ring_sizes" : {
     "0": 1,
     "1": 8,

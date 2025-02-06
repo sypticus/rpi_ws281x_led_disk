@@ -6,11 +6,11 @@ from . import diskmapping
 
 class PixelDisk(PixelStrip):
 
-    def __init__(self, pin):
+    def __init__(self, pin, freq_hz, dma, invert,brightness, channel):
         print("Loading mapping config")
         disk_map = diskmapping.DiskMapping('241led9ringRGB')
         print("Initializing Strip")
-        super().__init__(disk_map.pixel_count,  pin, 800000, 10, False, 255, 0)
+        super().__init__(disk_map.pixel_count, pin, freq_hz, dma, invert, brightness, channel)
         self.disk_map = disk_map
         self.begin()
 

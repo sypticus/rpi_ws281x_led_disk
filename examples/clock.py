@@ -1,17 +1,25 @@
 import time
 from rpi_ws281x_disk.rpi_ws281x_disk import PixelDisk
 
+
+# LED strip configuration:
+LED_1_PIN = 18          # GPIO pin connected to the pixels (must support PWM! GPIO 13 and 18 on RPi 3).
+LED_1_DMA = 10          # DMA channel to use for generating signal (Between 1 and 14)
+LED_1_BRIGHTNESS = 128  # Set to 0 for darkest and 255 for brightest
+LED_1_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
+LED_1_CHANNEL = 0       # 0 or 1. pin 18 is on channel 0.
+
+
+
 def hex_to_rgb(h):
     h = h.lstrip("#")
     return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
-
-
-
 
 HOUR_COLOR = (0,45,109)
 MINUTE_COLOR = (100, 10, 24)
 SECOND_COLOR = hex_to_rgb("#8F00FF")
 BACKGROUND = (0,1,5)
+
 
 
 def clock(disk):
@@ -46,4 +54,6 @@ def clock(disk):
         disk.show()
         time.sleep(.2)
 
-clock(PixelDisk(18))
+disk = PixelDisk(LED_1_PIN, LED_1_FREQ_HZ, LED_1_DMA, LED_1_BRIGHTNESS, LED_1_INVERT, LED_1_CHANNEL)
+
+clock(disk)
