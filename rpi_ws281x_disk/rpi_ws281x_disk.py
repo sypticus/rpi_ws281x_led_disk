@@ -1,7 +1,7 @@
 import time
 from rpi_ws281x import PixelStrip, Color
 
-import diskmapping
+from . import diskmapping
 
 
 class PixelDisk(PixelStrip):

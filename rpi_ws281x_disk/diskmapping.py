@@ -1,10 +1,18 @@
 import json
+import os
+
+script_dir = os.path.dirname(__file__)
+file_path = os.path.join(script_dir, './output03.txt')
+
 
 class DiskMapping:
     def __init__(self, device='241led9ringRGB'):
 
+        script_dir = os.path.dirname(__file__)
+        config_file_path = os.path.join(script_dir, 'devicemaps/{}.json'.format(device))
 
-        with open('devicemaps/{}.json'.format(device)) as config_file:
+
+        with open(config_file_path) as config_file:
             device_conf = json.load(config_file)
 
 

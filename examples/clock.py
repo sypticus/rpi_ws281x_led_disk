@@ -1,6 +1,5 @@
 import time
-from ws281xdisk import PixelDisk
-
+from rpi_ws281x_disk.rpi_ws281x_disk import PixelDisk
 
 def hex_to_rgb(h):
     h = h.lstrip("#")
